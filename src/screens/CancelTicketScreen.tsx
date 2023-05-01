@@ -10,6 +10,12 @@ const CancelTicketScreen = () => {
 
   const tickets = ticketContext.userTickets;
 
+  const activeTickets = tickets.filter(
+    (ticket) =>
+      Date.parse(ticket.expire_date as string) >
+      Date.parse(new Date().toISOString())
+  );
+
   return (
     <Box>
       <ResponsiveAppBar />
@@ -30,15 +36,22 @@ const CancelTicketScreen = () => {
           <ConfirmationNumberIcon sx={{ mr: "1rem" }} />
           Cancel Ticket
         </Typography>
-        {tickets
-          .filter(
-            (ticket) =>
-              Date.parse(ticket.expire_date as string) >
-              Date.parse(new Date().toISOString())
-          )
-          .map((ticket) => (
-            <TicketTile key={ticket.ticket_id} ticket={ticket} />
-          ))}
+        {activeTickets.map((ticket) => (
+          <TicketTile key={ticket.ticket_id} ticket={ticket} />
+        ))}
+        {!activeTickets.length && (
+          <Box
+            mt="2rem"
+            height="100%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography variant="caption">
+              No Active Ticket Available.
+            </Typography>
+          </Box>
+        )}
       </Container>
     </Box>
   );

@@ -19,7 +19,6 @@ import DialogActions from "@mui/material/DialogActions/DialogActions";
 import UserContext from "../context/UserContext/UserContext";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import TicketsContext from "../context/TicketsContext/TicketsContext";
-import { Routes } from "../routes/routes";
 
 const TicketDetailsScreen = () => {
   const [isCancelPromptShowing, setIsCancelPromptShowing] = useState(false);
@@ -97,7 +96,7 @@ const TicketDetailsScreen = () => {
       setIsCancelLoading(false);
 
       if (response.status === "success") {
-        navigate(Routes.CancelTicketScreen);
+        navigate(-1);
       } else {
         setIsCancelError(true);
       }
@@ -205,7 +204,7 @@ const TicketDetailsScreen = () => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsCancelError(false)}>close</Button>
+          <Button onClick={() => setIsCancelError(false)}>Close</Button>
         </DialogActions>
       </Dialog>
       <Dialog open={isCancelLoading} fullWidth>
@@ -215,9 +214,6 @@ const TicketDetailsScreen = () => {
             <Typography>Cancelling ticket...</Typography>
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsCancelError(false)}>close</Button>
-        </DialogActions>
       </Dialog>
       <ResponsiveAppBar />
       <Container component="main" maxWidth="xs">

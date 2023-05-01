@@ -9,6 +9,11 @@ const ShowTicketsScreen = () => {
   const ticketContext = useContext(TicketsContext);
 
   const tickets = ticketContext.userTickets;
+
+  const activeTickets = tickets.filter(
+    (ticket) =>
+      Date.parse(ticket.expire_date) > Date.parse(new Date().toISOString())
+  );
   return (
     <Box>
       <ResponsiveAppBar />
@@ -29,19 +34,22 @@ const ShowTicketsScreen = () => {
           <StyleIcon sx={{ mr: "1rem" }} />
           Booking History
         </Typography>
-        {tickets
-          .filter(
-            (ticket) =>
-              Date.parse(ticket.expire_date) >
-              Date.parse(new Date().toISOString())
-          )
-          .map((ticket) => (
-            <TicketTile
-              key={ticket.ticket_id}
-              isShowingTicket
-              ticket={ticket}
-            />
-          ))}
+        {activeTickets.map((ticket) => (
+          <TicketTile key={ticket.ticket_id} isShowingTicket ticket={ticket} />
+        ))}
+        {!activeTickets.length && (
+          <Box
+            mt="2rem"
+            height="100%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography variant="caption">
+              No Active Ticket Available.
+            </Typography>
+          </Box>
+        )}
       </Container>
     </Box>
   );
